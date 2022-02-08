@@ -4,14 +4,7 @@ Created on Wed Jan 19 18:35:08 2022
 
 @author: Luca
 """
-import os, csv
-
-
-HEADER_CONTENT = ["time", "ip emetor", "ip receptor", "attr"]
-CONTENT_CONTENT = ["hexa", "number"]
-
-
-
+import os
 
 def read_file(path):
     """
@@ -26,22 +19,12 @@ def read_file(path):
     except:
         print("Le fichier n'existe pas %s", os.path.abspath(path))
         return None
-"""    
-def write_csv(path, content):
-    if os.path.exists(path):
-        with open(path, "w") as f:
-            for line in content:
-                f.write(line+"\n")
-    else:
-        with open(path, "x") as f:
-            for line in content:
-                f.write(line+"\n")
-"""
-def write_csv(path, content):
+    
+def write(path, content):
     with open(path, 'w') as f:
-        writer = csv.writer(f, delimiter=";")
         for line in content:
-            writer.writerow(line)
+            line.append("\n")
+            f.write(";".join(line))
             
             
 def create_ip(part):
@@ -95,16 +78,13 @@ def create_header(line):
         
 def main(filename):
     file = read_file(filename)
-    i=0
     headers=[]
     for line in file:
         if line.startswith('11:42'):
             header = create_header(line)
             print(header)
             headers.append(header)
-            i+=1
-    write_csv("resultat.csv", headers)
-    print(i)
+    write("resultat.csv", headers)
             
             
 """
